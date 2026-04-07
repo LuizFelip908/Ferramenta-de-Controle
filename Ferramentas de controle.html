@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Controle de Entregas</title>
+<style>
+body { font-family: Arial, sans-serif; background:#0f172a; color:white; margin:0; }
+.container { max-width:900px; margin:auto; padding:20px; }
+.card { background:#1e293b; padding:20px; margin-bottom:20px; border-radius:10px; border: 1px solid rgba(255,255,255,0.1); }
+input, button { padding:12px; margin:8px 0; width:100%; border:none; border-radius:5px; box-sizing: border-box; }
+button { background:#38bdf8; color:black; font-weight:bold; cursor:pointer; transition: background 0.3s; }
+button:hover { background:#0ea5e9; }
+h2 { margin-top:0; color: #38bdf8; }
+.aluno-info { font-size: 0.9rem; color: #94a3b8; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+.hidden { display:none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- IDENTIFICAÇÃO DO ALUNO -->
+<div class="aluno-info">
+  <strong>Aluno:</strong> Luiz Felipe Almeida Silva
+</div>
+
+<!-- LOGIN -->
+<div class="card" id="login">
+<h2>Login</h2>
+<input type="password" id="senha" placeholder="Digite a senha">
+<button onclick="logar()">Entrar</button>
+<p id="erro" style="color:#f87171; font-size: 0.9rem;"></p>
+</div>
+
+<!-- SISTEMA -->
+<div id="sistema" class="hidden">
+
+<!-- CADASTRO MERCADORIA -->
+<div class="card">
+<h2>Cadastro de Mercadoria</h2>
+<input id="nome" placeholder="Nome do produto">
+<input id="codigo" placeholder="Código">
+<input id="categoria" placeholder="Categoria">
+<input id="quantidade" type="number" placeholder="Quantidade">
+<input id="valor" type="text" placeholder="Valor">
+<button onclick="salvarMercadoria()">Salvar Mercadoria</button>
+</div>
+
+<!-- CADASTRO ENDEREÇO -->
+<div class="card">
+<h2>Cadastro de Endereço</h2>
+<input id="logradouro" placeholder="Logradouro">
+<input id="complemento" placeholder="Complemento">
+<input id="numero" placeholder="Número">
+<input id="cep" placeholder="CEP">
+<input id="cidade" placeholder="Cidade">
+<input id="estado" placeholder="Estado">
+<button onclick="salvarEndereco()">Salvar Endereço</button>
+</div>
+
+<!-- VINCULAÇÃO -->
+<div class="card">
+<h2>Vincular Entrega</h2>
+<button onclick="vincular()">Vincular Mercadoria ao Endereço</button>
+<p id="resultado" style="margin-top: 15px; padding: 10px; background: rgba(56, 189, 248, 0.1); border-radius: 5px;"></p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+let mercadoria = {};
+let endereco = {};
+
+function logar(){
+  let senhaInput = document.getElementById("senha").value;
+  if(senhaInput === "12345678"){
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("sistema").classList.remove("hidden");
+  } else {
+    document.getElementById("erro").innerText = "Senha incorreta";
+  }
+}
+
+function salvarMercadoria(){
+  mercadoria = {
+    nome: document.getElementById("nome").value,
+    codigo: document.getElementById("codigo").value,
+    categoria: document.getElementById("categoria").value,
+    quantidade: document.getElementById("quantidade").value,
+    valor: document.getElementById("valor").value
+  };
+  if(mercadoria.nome) alert("Mercadoria '" + mercadoria.nome + "' salva!");
+}
+
+function salvarEndereco(){
+  endereco = {
+    logradouro: document.getElementById("logradouro").value,
+    complemento: document.getElementById("complemento").value,
+    numero: document.getElementById("numero").value,
+    cep: document.getElementById("cep").value,
+    cidade: document.getElementById("cidade").value,
+    estado: document.getElementById("estado").value
+  };
+  if(endereco.logradouro) alert("Endereço salvo com sucesso!");
+}
+
+function vincular(){
+  if(mercadoria.nome && endereco.logradouro){
+    document.getElementById("resultado").innerHTML = 
+      "<strong>Status:</strong> O produto <span style='color:#38bdf8'>'" + mercadoria.nome + 
+      "'</span> será entregue em " + endereco.logradouro + ", Nº " + endereco.numero;
+  } else {
+    document.getElementById("resultado").innerText = "Atenção: Cadastre a mercadoria e o endereço primeiro.";
+  }
+}
+</script>
+
+</body>
+</html>
